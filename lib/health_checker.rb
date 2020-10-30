@@ -12,9 +12,20 @@ class HealthChecker
   end
 
   def rotate_urls
-    FetchUrls.urls.each do |url|
-      response = check_url(url)
-      log("#{url}: #{response[:code]} #{response[:delay]}")
+    if RedisWorker.urls.nil?
+      puts "URL is not present"
+    else
+      RedisWorker.urls.each do |u|
+        response = check_url(u['url'])
+        statistic = {
+          server_id: u['id'], 
+          url: u['url'], 
+          code: response[:code], 
+          delay: response[:delay]
+        }
+        log(statistic)
+        RedisWorker.push_data statistic
+      end
     end
   end
 
