@@ -7,7 +7,7 @@ require 'json'
 class RedisWorker
 
   @redis = Redis.new(
-    host: "localhost",
+    host: "redis",
     reconnect_attempts: 8,
     reconnect_delay: 2
   )
@@ -15,7 +15,7 @@ class RedisWorker
   def self.urls
     urls = @redis.get("urls")
     if urls.nil?
-      puts "urls is empty"
+      LogWorker.log("urls is empty")
     else
       JSON.parse(urls)
     end

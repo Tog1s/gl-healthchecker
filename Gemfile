@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 
 ruby '2.7.1'
 
-gem 'rest-client'
-gem 'redis'
 gem 'logger'
-
+gem 'redis'
+gem 'rest-client'
